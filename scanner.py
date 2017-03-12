@@ -26,8 +26,8 @@ class Scanner():
     def interpret_line(self, full_line):
         if full_line != None:
             line = full_line[0].split(" ")
-            print(line)
             for __ in line:
+                print(self.current_token_index)
                 if self.current_token_index >= len(line):
                     self.current_token_index = 0
                     break
@@ -36,12 +36,16 @@ class Scanner():
 
     def switch(self,token,line):
         if re.match(r"router-id", token):
-            self.new_router()
+            print("matched router id")
+            self.new_router(line)
         elif re.match("#"+".*?", token):
+            print("match commeent")
             self.current_token_index = len(line)
+        else:
+            print(line[self.current_token_index]+ " Does not Match")
 
-    def new_router(self):
-        print("It works")
+    def new_router(self, line):
+        print("works")
 
 def main():
     """Main executions here"""
