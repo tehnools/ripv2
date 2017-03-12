@@ -1,5 +1,3 @@
-giberrish and stuff # asdf af af
-router-id #asdfasf adsfasfd
-something
 router-id 100
+asdf
 router-id 100
