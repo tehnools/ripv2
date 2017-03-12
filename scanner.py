@@ -31,9 +31,11 @@ class Scanner():
         @Return None"""
         if full_line != None:
             self.current_token_index = 0 #resets once loops to new line
-            line = full_line[0].split(" ")
+            line = full_line[0].rsplit()
             for __ in line:
                 if self.current_token_index >= len(line):
+                    break
+                if re.match("\n", line[0]):
                     break
                 self.switch(line[self.current_token_index], line)
                 self.current_token_index += 1
