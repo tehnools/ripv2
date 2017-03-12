@@ -23,8 +23,7 @@ class Scanner():
                 self.line_index += 1
                 self.interpret_line(line.splitlines())
         else:
-            print("FILENAME MUST BE A STRING")
-            sys.exit()
+            sys.exit("FILENAME MUST BE A STRING")
 
     def interpret_line(self, full_line):
         """ Recieves a line at a time splits the lines by space and calls switch
@@ -46,9 +45,8 @@ class Scanner():
         elif re.match("#"+".*?", token):
             self.current_token_index = len(line)
         else:
-            print("LINE " + str(self.line_index) +
+            sys.exit("LINE " + str(self.line_index) +
             " : Does not follow proper Syntax at... " + line[0])
-            sys.exit()
 
     def new_router(self, line):
         """Creates New instance of router checks if next token is an integer
@@ -56,9 +54,8 @@ class Scanner():
         if re.match(r"\d", line[self.current_token_index + 1]):
             self.current_token_index += 1
         else:
-            print("LINE " + str(self.line_index) +
+            sys.exit("LINE " + str(self.line_index) +
             " : Integer must follow router-id")
-            sys.exit()
 
 def main():
     """Main executions here"""
