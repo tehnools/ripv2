@@ -3,7 +3,9 @@ import re
 class Scanner():
 
     def __init__(self, filename):
-        """Constructor for scanner"""
+        """Constructor for scanner
+        @var filename, current_token_index
+        @Return None"""
         self.filename = filename
         self.current_token_index = 0
 
@@ -12,40 +14,48 @@ class Scanner():
     #          return(token)
 
     def scan(self):
-        """Recieves file path in the form of a strings then returns each line
-        @Return line.splitlines()"""
+        """Recieves file path in the form of a strings then executes interpret_line
+        @var f,
+        @funct isinstance, readlines, interpret_line
+        @Return None"""
         # returns an array with full lines of strings
         if isinstance(self.filename, basestring):
             f = open(self.filename, "rw")
             for line in f.readlines():
-                print(line)
                 self.interpret_line(line.splitlines())
         else:
             raise("FILE ERROR: FILENAME MUST BE A STRING")
 
     def interpret_line(self, full_line):
+        """ Recieves a line at a time splits the lines by space and calls switch
+        to check the current token
+        @Return None"""
         if full_line != None:
+            self.current_token_index = 0 #resets once loops to new line
             line = full_line[0].split(" ")
             for __ in line:
-                print(self.current_token_index)
                 if self.current_token_index >= len(line):
-                    self.current_token_index = 0
                     break
                 self.switch(line[self.current_token_index], line)
                 self.current_token_index += 1
 
     def switch(self,token,line):
+        """Checks for all the statically typed cases in if statements."""
         if re.match(r"router-id", token):
-            print("matched router id")
             self.new_router(line)
         elif re.match("#"+".*?", token):
-            print("match commeent")
             self.current_token_index = len(line)
-        else:
-            print(line[self.current_token_index]+ " Does not Match")
+        # else:
+        #     print(line[self.current_token_index]+ " Does not Match")
 
     def new_router(self, line):
-        print("works")
+        """Creates New router checks if next token is an integer"""
+        print("new_router")
+        if re.match(r"\d", line[self.current_token_index + 1]):
+            self.current_token_index += 1
+            print("router id match")
+        else:
+            print("ERROR INVALID EXECUTION: integer must follow router-id")
 
 def main():
     """Main executions here"""
