@@ -18,12 +18,16 @@ class Scanner():
         @funct isinstance, readlines, interpret_line
         @Return None"""
         if isinstance(self.filename, basestring):
-            f = open(self.filename, "rw")
-            for line in f.readlines():
-                self.line_index += 1
-                self.interpret_line(line.splitlines())
+            with open(self.filename, "rw") as f:
+                for line in f.readlines():
+                    self.line_index += 1
+                    self.interpret_line(line.splitlines())
         else:
             sys.exit("FILENAME MUST BE A STRING")
+
+    def get_token(self):
+        token_index = self.current_token_index + 1
+        return token_index
 
     def interpret_line(self, full_line):
         """ Recieves a line at a time splits the lines by space and calls switch
@@ -35,8 +39,8 @@ class Scanner():
             for __ in line:
                 if self.current_token_index >= len(line):
                     break
-                if re.match("\n", line[0]):
-                    break
+                # if re.match("\n", line[0]):
+                #     break
                 self.switch(line[self.current_token_index], line)
                 self.current_token_index += 1
 
@@ -44,6 +48,8 @@ class Scanner():
         """Checks for all the statically typed cases in if statements."""
         if re.match(r"router-id", token):
             self.new_router(line)
+        elif re.match("input-ports", token):
+            self.new_input_ports(line)
         elif re.match("#"+".*?", token):
             self.current_token_index = len(line)
         else:
@@ -51,13 +57,29 @@ class Scanner():
             " : Does not follow proper Syntax at... " + line[0])
 
     def new_router(self, line):
-        """Creates New instance of router checks if next token is an integer
+        """Creates New subclass Router() also checks if there is an integer after
+        router-id otherwise exception thrown
         @Return None"""
         if re.match(r"\d", line[self.current_token_index + 1]):
             self.current_token_index += 1
         else:
             sys.exit("LINE " + str(self.line_index) +
             " : Integer must follow router-id")
+
+    def new_input_ports(self, line):
+        try:
+            while self.get_token() < len(line):
+                token = line[self.get_token()]
+                if int(token) in range(1,64000):
+                    print("it works new port " + str(token))
+                    self.current_token_index += 1
+                else:
+                    raise ValueError
+        except ValueError as msg:
+            print(
+            "Socket input must be followed by an integer range 1 to 64000" +
+            str(msg) + " at " + str(self.line_index))
+
 
 def main():
     """Main executions here"""
