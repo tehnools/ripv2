@@ -26,6 +26,8 @@ class Scanner():
             sys.exit("FILENAME MUST BE A STRING")
 
     def get_token(self):
+        """Previews the next token
+        @Return token_index"""
         token_index = self.current_token_index + 1
         return token_index
 
@@ -45,7 +47,8 @@ class Scanner():
                 self.current_token_index += 1
 
     def switch(self,token,line):
-        """Checks for all the statically typed cases in if statements."""
+        """Checks for all the statically typed cases in if statements.
+        @Return None"""
         if re.match(r"router-id", token):
             self.new_router(line)
         elif re.match("input-ports", token):
@@ -67,6 +70,8 @@ class Scanner():
             " : Integer must follow router-id")
 
     def new_input_ports(self, line):
+        """Helper function for finding input-port numbers
+        @Return None"""
         try:
             while self.get_token() < len(line):
                 token = line[self.get_token()]
@@ -80,6 +85,9 @@ class Scanner():
             "Socket input must be followed by an integer range 1 to 64000" +
             str(msg) + " at " + str(self.line_index))
 
+    def new_input_ports(self, line):
+        """Helper function for finding peer output-port numbers,metric,router-id
+        @Return None"""
 
 def main():
     """Main executions here"""
