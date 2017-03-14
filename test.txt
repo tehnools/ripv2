@@ -1,3 +1,4 @@
-router-id 100
-input-ports 6110 2555 66666
+router-id 100 #comments and shit
+
+input-ports 6100 5000 64000
 router-id 100

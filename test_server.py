@@ -1,3 +1,4 @@
+#Python Ver. 2.7.12
 import socket
 import sys
 
@@ -46,7 +47,7 @@ def send_commands():
         if len(str.encode(cmd)) > 0:
             conn.send(str.encode(cmd))
             client_response = str(conn.recv(1024), "utf-8")
-            print(client_response, end="")
+            print(client_response.replace("\n",""))
 
 def main():
     socket_create()

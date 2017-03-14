@@ -53,7 +53,7 @@ class Scanner():
         @Return None"""
         if re.match(r"router-id", token):
             self.new_router(line)
-        elif re.match("input-ports", token):
+        elif re.match('input-ports', token):
             self.new_input_ports(line)
         elif re.match("#"+".*?", token):
             self.current_token_index = len(line)
@@ -77,7 +77,7 @@ class Scanner():
         try:
             while self.get_token() < len(line):
                 token = line[self.get_token()]
-                if int(token) in range(1,64000):
+                if int(token) in range(1,64001):
                     print("it works new port " + str(token))
                     self.current_token_index += 1
                 else:
@@ -87,7 +87,7 @@ class Scanner():
             "Socket input must be followed by an integer range 1 to 64000" +
             str(msg) + " at " + str(self.line_index))
 
-    def new_input_ports(self, line):
+    def new_output_ports(self, line):
         """Helper function for finding peer output-port numbers,metric,router-id
         @Return None"""
 
