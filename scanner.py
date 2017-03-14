@@ -1,3 +1,5 @@
+#Python Ver. 2.7.12
+
 import re
 import sys
 
